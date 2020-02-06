@@ -1,0 +1,36 @@
+{{!-- ?nif=14109F&prueba=lalalalala --}}
+
+<h1>Service creation</h1>
+
+<form action="/createServicePOST" method="POST">
+    <fieldset>
+        <label>
+        Please provide a valid name
+
+        <input type="text" name="name" placeholder="Service name">
+    </label>
+    </fieldset>
+
+    <fieldset>
+        <label>
+        Please provide a valid nif
+
+        <input type="text" name="nif" placeholder="NIF">
+    </label>
+    </fieldset>
+    
+
+    <fieldset>
+        <label>
+        Please provide a valid category
+
+        <select name="category">
+            <option value="amusement">Amusement</option>
+            <option value="drinks and beverage">Drinks and beverage</option>
+            <option value="food">Food</option>
+        </select>
+    </label>
+    </fieldset>
+
+    <button>Search</button>
+</form>

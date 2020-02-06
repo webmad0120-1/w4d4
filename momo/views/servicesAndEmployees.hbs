@@ -1,0 +1,25 @@
+{{!-- you can extend this thing using https://www.npmjs.com/package/swag --}}
+<h1>Services and Employees of IronThemePark (tm)</h1>
+
+{{#if employees}}
+    <h2>Employees ({{employees.length}})</h2>
+    <ul>
+        {{#each employees}}
+        <li>
+            {{name}} {{surname}}
+        </li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+<h2>Services ({{services.length}})</h2>
+<ul>
+    {{#each services}}
+    <li>
+        {{#unless ../showOnlyNIF}}
+        {{name}}
+        {{/unless}}
+        {{nif}}
+    </li>
+    {{/each}}
+</ul>
