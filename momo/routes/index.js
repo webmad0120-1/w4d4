@@ -3,13 +3,18 @@ const router = express.Router();
 const Services = require("../models/Services");
 const Employees = require("../models/Employees");
 
+// get all the services and employees in one page with nif optionally needed (if specified any value in nif it will be considered true)
+// examples 1: http://localhost:3000/servicesAndEmployees/5/2
+// examples 2: http://localhost:3000/servicesAndEmployees/5/2/true (only nif)
 router.get("/servicesAndEmployees/:nEmployees/:nServices/:nif?", (req, res, next) => {
   let allServices;
 
+  // let's find all the services, limited to a number that gets passed in the URL
   Services.find()
     .limit(+req.params.nServices)
     .then(allServicesPayload => {
       allServices = allServicesPayload;
+      // let's find all the employees, limited to a number that gets passed in the URL
       return Employees.find().limit(+req.params.nEmployees);
     })
     .then(allEmployees => {
@@ -22,10 +27,12 @@ router.get("/servicesAndEmployees/:nEmployees/:nServices/:nif?", (req, res, next
         hbsPayload.showOnlyNIF = true;
       }
 
+      // let's create the data that gets passed into the view
       res.render("servicesAndEmployees", hbsPayload);
     });
 });
 
+// find a service by nif: http://localhost:3000/servicesByNIF/14757F (this nif must exist in your database)
 router.get("/servicesByNIF/:nif", (req, res, next) => {
   Services.find({ nif: req.params.nif }).then(service => {
     res.render("servicesAndEmployees", {
@@ -61,6 +68,8 @@ router.get("/services", (req, res, next) => {
     });
 });
 
+// display a map from a city and street, passing in the values in the URL using a querystring
+// http://localhost:3000/getMap?city=bcn&street=carrer+tallers
 router.get("/getMap", (req, res, next) => {
   const cityPayload = req.query.city.toUpperCase();
   const streetPayload = req.query.street;
@@ -71,10 +80,12 @@ router.get("/getMap", (req, res, next) => {
   });
 });
 
+// render a form that allows you to create a new service
 router.get("/createService", (req, res) => {
   res.render("createService");
 });
 
+// endpoint that records a new post sent by the form in createService.hbs
 router.post("/createServicePOST", (req, res) => {
   Services.create({
     name: req.body.name,
