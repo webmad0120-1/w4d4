@@ -96,4 +96,24 @@ router.post("/createServicePOST", (req, res) => {
   });
 });
 
+router.get("/updateUser/:id", (req, res) => {
+  Employees.findById(req.params.id).then(employee => {
+    console.log(employee);
+    res.render("updateUser", { employee });
+  });
+});
+
+router.post("/updateUser", (req, res) => {
+  Employees.findByIdAndUpdate(
+    req.body.id,
+    {
+      name: req.body.name
+    },
+    { new: true }
+  ).then(employee => {
+    res.redirect("/servicesAndEmployees/5/2");
+    // res.render(`updateUser/${req.body.id}`, { employee });
+  });
+});
+
 module.exports = router;
